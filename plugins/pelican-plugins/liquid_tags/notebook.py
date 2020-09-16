@@ -3,28 +3,21 @@ Notebook Tag
 ------------
 This is a liquid-style tag to include a static html rendering of an IPython
 notebook in a blog post.
-
 Syntax
 ------
 {% notebook filename.ipynb [ cells[start:end] language[language] ]%}
-
 The file should be specified relative to the ``notebooks`` subdirectory of the
 content directory.  Optionally, this subdirectory can be specified in the
 config file:
-
     NOTEBOOK_DIR = 'notebooks'
-
 The cells[start:end] statement is optional, and can be used to specify which
 block of cells from the notebook to include.
-
 The language statement is obvious and can be used to specify whether ipython2
 or ipython3 syntax highlighting should be used.
-
 Requirements
 ------------
 - The plugin requires IPython version 1.0 or above.  It no longer supports the
   standalone nbconvert package, which has been deprecated.
-
 Details
 -------
 Because the notebook relies on some rather extensive custom CSS, the use of
@@ -34,15 +27,11 @@ After typing "make html" when using the notebook tag, a file called
 of the file should be included in the header of the theme.  An easy way
 to accomplish this is to add the following lines within the header template
 of the theme you use:
-
     {% if EXTRA_HEADER %}
       {{ EXTRA_HEADER }}
     {% endif %}
-
 and in your ``pelicanconf.py`` file, include the line:
-
     EXTRA_HEADER = open('_nb_header.html').read().decode('utf-8')
-
 this will insert the appropriate CSS.  All efforts have been made to ensure
 that this CSS will not override formats within the blog theme, but there may
 still be some conflicts.
@@ -124,16 +113,13 @@ div.entry-content {
 .input_area {
   padding: 0.2em;
 }
-
 a.heading-anchor {
  white-space: normal;
 }
-
 .rendered_html
 code {
  font-size: .8em;
 }
-
 pre.ipynb {
   color: black;
   background: #f7f7f7;
@@ -144,20 +130,16 @@ pre.ipynb {
   margin: 0px;
   font-size: 13px;
 }
-
 /* remove the prompt div from text cells */
 div.text_cell .prompt {
     display: none;
 }
-
 /* remove horizontal padding from text cells, */
 /* so it aligns with outer body text */
 div.text_cell_render {
     padding: 0.5em 0em;
 }
-
 img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
-
 div.collapseheader {
     width=100%;
     background-color:#d3d3d3;
@@ -166,29 +148,18 @@ div.collapseheader {
     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 </style>
-
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
-<script type="text/javascript">
-init_mathjax = function() {
-    if (window.MathJax) {
-        // MathJax loaded
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
-            },
-            displayAlign: 'left', // Change this to 'center' to center equations.
-            "HTML-CSS": {
-                styles: {'.MathJax_Display': {"margin": 0}}
-            }
-        });
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true,
+        displayMath: [['$$','$$'], ["\\[","\\]"]]
     }
-}
-init_mathjax();
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
 <script type="text/javascript">
 jQuery(document).ready(function($) {
     $("div.collapseheader").click(function () {
@@ -203,7 +174,6 @@ jQuery(document).ready(function($) {
 });
 });
 </script>
-
 """
 
 CSS_WRAPPER = """
@@ -292,7 +262,7 @@ def notebook(preprocessor, tag, markup):
     language_applied_highlighter = partial(custom_highlighter, language=language)
 
     nb_dir =  preprocessor.configs.getConfig('NOTEBOOK_DIR')
-    nb_path = os.path.join('content', nb_dir, src)
+    nb_path = os.path.join(settings.get('PATH', 'content'), nb_dir, src)
 
     if not os.path.exists(nb_path):
         raise ValueError("File {0} could not be found".format(nb_path))
@@ -352,7 +322,7 @@ def notebook(preprocessor, tag, markup):
 
     # this will stash special characters so that they won't be transformed
     # by subsequent processes.
-    body = preprocessor.configs.htmlStash.store(body, safe=True)
+    body = preprocessor.configs.htmlStash.store(body)
     return body
 
 notebook.header_saved = False

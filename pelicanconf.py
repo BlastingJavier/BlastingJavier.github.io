@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Francisco Javier Nanclares Rodriguez'
 SITENAME = 'clearml'
-SITESUBTITLE = u'Machine learning claro'
+SITESUBTITLE = u'Machine Learning claro'
 SITEURL = ''
 PATH = 'content'
 TIMEZONE = 'Europe/Berlin'
@@ -38,7 +38,8 @@ PLUGINS = [
     'liquid_tags.img',  # embedding images
     'liquid_tags.video',  # embedding videos
     'liquid_tags.include_code',  # including code blocks
-    'liquid_tags.literal'
+    'liquid_tags.literal',
+    'render_math',
 ]
 IGNORE_FILES = ['.ipynb_checkpoints']
 
@@ -50,12 +51,12 @@ NOTEBOOK_DIR = 'downloads/notebooks'
 THEME = './theme/'
 
 ABOUT_PAGE = '/pages/about.html'
-#TWITTER_USERNAME =
+#TWITTER_USERNAME = ''
 GITHUB_USERNAME = 'BlastingJavier'
-#STACKOVERFLOW_ADDRESS =
-AUTHOR_WEBSITE = 'http://vanderplas.com'
+#STACKOVERFLOW_ADDRESS = ''
+#AUTHOR_WEBSITE = ''
 AUTHOR_BLOG = 'http://BlastingJavier.github.io'
-#AUTHOR_CV =
+#AUTHOR_CV = ""
 SHOW_ARCHIVES = True
 SHOW_FEED = False  # Need to address large feeds
 
